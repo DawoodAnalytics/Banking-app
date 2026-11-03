@@ -1,3 +1,8 @@
 from django.contrib import admin
+from .models import User
 
-# Register your models here.
+@admin.register(User)
+class UserAdmin(admin.ModelAdmin):
+    list_display = ('cnic', 'name', 'role', 'is_active', 'is_profile_complete', 'created_by')
+    list_filter = ('role', 'is_active')
+    search_fields = ('cnic', 'name')
