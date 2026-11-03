@@ -1,0 +1,42 @@
+:root {
+  --bg: #0B1026;
+  --card: #151B3B;
+  --violet: #7C3AED;
+  --teal: #06D6A0;
+  --gold: #FFB703;
+  --danger: #EF476F;
+  --text: #FFFFFF;
+  --muted: #A0A8C5;
+  --gradient: linear-gradient(135deg, #7C3AED, #06D6A0);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Poppins', sans-serif; min-height: 100vh; }
+.text-muted-2 { color: var(--muted); }
+.gradient-text { background: var(--gradient); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.card-glass {
+  background: rgba(21, 27, 59, 0.75);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  transition: transform .3s, box-shadow .3s;
+}
+.card-glass:hover { box-shadow: 0 12px 40px rgba(124,58,237,.35); }
+.btn-gradient {
+  background: var(--gradient); border: 0; color: #fff; border-radius: 12px;
+  padding: 12px 24px; font-weight: 600; transition: transform .2s, box-shadow .2s;
+}
+.btn-gradient:hover { color: #fff; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(124,58,237,.5); }
+.form-control {
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15);
+  color: var(--text); border-radius: 12px; padding: 12px 16px;
+}
+.form-control:focus { background: rgba(255,255,255,0.1); color: var(--text); border-color: var(--violet); box-shadow: 0 0 0 .2rem rgba(124,58,237,.3); }
+.form-control::placeholder { color: var(--muted); }
+.hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+.role-card { padding: 40px 30px; text-align: center; text-decoration: none; color: var(--text); display: block; }
+.role-card:hover { color: var(--text); }
+.role-card i { font-size: 3.5rem; }
+.toast-box { position: fixed; top: 16px; right: 16px; z-index: 9999; }
+.toast-box .msg { padding: 12px 20px; border-radius: 12px; margin-bottom: 8px; font-weight: 500; animation: slidein .4s; }
+.msg.error { background: var(--danger); }
+.msg.success { background: var(--teal); color: #0B1026; }
+@keyframes slidein { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: none; } }

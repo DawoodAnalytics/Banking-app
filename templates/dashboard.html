@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="container py-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="gradient-text fw-bold">{{ role|title }} Dashboard</h2>
+    <a href="{% url 'logout' %}" class="btn btn-gradient">Logout</a>
+  </div>
+  <div class="card-glass p-4">
+    <h4>Welcome, {{ request.user.name|default:request.user.cnic }}!</h4>
+    <p class="text-muted-2 mb-0">Login works. Real features are coming next.</p>
+  </div>
+</div>
+{% endblock %}
