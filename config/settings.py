@@ -165,3 +165,9 @@ if not DEBUG:
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+# Extra host for PythonAnywhere (set via environment variable on the server)
+_extra_host = os.environ.get('EXTRA_HOST')
+if _extra_host:
+    ALLOWED_HOSTS.append(_extra_host)
+    CSRF_TRUSTED_ORIGINS = ['https://' + _extra_host]
