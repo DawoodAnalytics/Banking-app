@@ -43,6 +43,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -138,3 +139,29 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'accounts.validators.StrongPasswordValidator'},
     {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
 ]
+
+# ---------- Production settings ----------
+import os
+import dj_database_url
+
+SECRET_KEY = os.environ.get('SECRET_KEY', SECRET_KEY)
+DEBUG = os.environ.get('DEBUG', 'True') == 'True'
+
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+_render_host = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+if _render_host:
+    ALLOWED_HOSTS.append(_render_host)
+    CSRF_TRUSTED_ORIGINS = ['https://' + _render_host]
+
+if os.environ.get('DATABASE_URL'):
+    DATABASES = {'default': dj_database_url.config(conn_max_age=600)}
+
+STORAGES = {
+    'default': {'BACKEND': 'django.core.files.storage.FileSystemStorage'},
+    'staticfiles': {'BACKEND': 'whitenoise.storage.CompressedStaticFilesStorage'},
+}
+
+if not DEBUG:
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
