@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block content %}
+<div class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="gradient-text fw-bold mb-0"><i class="bi bi-bank2"></i> Admin Dashboard</h2>
+    <a href="{% url 'logout' %}" class="btn btn-gradient">Logout</a>
+  </div>
+
+  <div class="row g-3 mb-4">
+    <div class="col-12 col-md-4">
+      <div class="card-glass p-4 text-center">
+        <i class="bi bi-people-fill gradient-text" style="font-size:2rem;"></i>
+        <h2 class="fw-bold mb-0">{{ total_users }}</h2>
+        <span class="text-muted-2">Total Users</span>
+      </div>
+    </div>
+    <div class="col-12 col-md-4">
+      <div class="card-glass p-4 text-center">
+        <i class="bi bi-check-circle-fill" style="font-size:2rem; color:var(--teal);"></i>
+        <h2 class="fw-bold mb-0">{{ active_users }}</h2>
+        <span class="text-muted-2">Active Accounts</span>
+      </div>
+    </div>
+    <div class="col-12 col-md-4">
+      <div class="card-glass p-4 text-center">
+        <i class="bi bi-shield-lock-fill" style="font-size:2rem; color:var(--gold);"></i>
+        <h2 class="fw-bold mb-0">{{ total_admins }}</h2>
+        <span class="text-muted-2">Admins</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-lg-4">
+      <div class="card-glass p-4">
+        <h4 class="mb-3"><i class="bi bi-person-plus-fill"></i> Create User</h4>
+        <form method="post">
+          {% csrf_token %}
+          <div class="mb-3"><input type="text" name="name" class="form-control" placeholder="Full name" required></div>
+          <div class="mb-3"><input type="text" name="cnic" class="form-control" placeholder="CNIC (13 digits)" maxlength="13" pattern="\d{13}" required></div>
+          <div class="mb-3"><input type="text" name="password" class="form-control" placeholder="Temporary password" minlength="6" required></div>
+          <button type="submit" class="btn btn-gradient w-100">Create Account</button>
+        </form>
+        <p class="text-muted-2 small mt-3 mb-0">An account number is generated automatically. The user must complete their profile on first login.</p>
+      </div>
+    </div>
+
+    <div class="col-lg-8">
+      <div class="card-glass p-4">
+        <h4 class="mb-3"><i class="bi bi-list-check"></i> Accounts You Created</h4>
+        <div style="overflow-x:auto;">
+          <table class="table align-middle mb-0">
+            <thead>
+              <tr class="text-muted-2"><th>Name</th><th>CNIC</th><th>Account No</th><th>Role</th><th>Status</th><th>Actions</th></tr>
+            </thead>
+            <tbody>
+              {% for u in users %}
+              <tr>
+                <td>{{ u.name }}</td>
+                <td>{{ u.cnic }}</td>
+                <td>{{ u.account.account_number|default:"-" }}</td>
+                <td>{% if u.role == 'admin' %}<span class="badge" style="background:var(--gold);color:#0B1026;">Admin</span>{% else %}<span class="badge" style="background:var(--violet);">User</span>{% endif %}</td>
+                <td>{% if u.is_active %}<span class="badge" style="background:var(--teal);color:#0B1026;">Active</span>{% else %}<span class="badge" style="background:var(--danger);">Deactivated</span>{% endif %}</td>
+                <td>
+                  <div class="d-flex gap-2">
+                    {% if u.role == 'user' %}
+                    <form method="post" action="{% url 'promote_user' u.pk %}">{% csrf_token %}
+                      <button class="btn btn-sm btn-outline-warning" onclick="return confirm('Make this user an admin?')">Make Admin</button>
+                    </form>
+                    {% endif %}
+                    <form method="post" action="{% url 'toggle_user' u.pk %}">{% csrf_token %}
+                      <button class="btn btn-sm {% if u.is_active %}btn-outline-danger{% else %}btn-outline-success{% endif %}">{% if u.is_active %}Deactivate{% else %}Activate{% endif %}</button>
+                    </form>
+                  </div>
+                </td>
+              </tr>
+              {% empty %}
+              <tr><td colspan="6" class="text-center text-muted-2 py-4">No accounts created yet. Use the form to create the first one.</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

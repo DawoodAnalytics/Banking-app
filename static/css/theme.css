@@ -40,3 +40,4 @@ body { background: var(--bg); color: var(--text); font-family: 'Poppins', sans-s
 .msg.error { background: var(--danger); }
 .msg.success { background: var(--teal); color: #0B1026; }
 @keyframes slidein { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: none; } }
+.table { --bs-table-bg: transparent; --bs-table-color: #fff; --bs-table-border-color: rgba(255,255,255,0.1); }
