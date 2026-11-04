@@ -8,6 +8,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
 
 from accounts.models import User, cnic_validator
+from accounts.validators import strength_error
 from banking.models import Account
 
 
@@ -34,8 +35,8 @@ def admin_dashboard(request):
             error = 'CNIC must be exactly 13 digits (no dashes).'
         if not error and not name:
             error = 'Name is required.'
-        if not error and len(password) < 6:
-            error = 'Temporary password must be at least 6 characters.'
+        if not error and strength_error(password):
+            error = strength_error(password)
         if not error and User.objects.filter(cnic=cnic).exists():
             error = 'A user with this CNIC already exists.'
 

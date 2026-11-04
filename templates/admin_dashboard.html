@@ -39,7 +39,7 @@
           {% csrf_token %}
           <div class="mb-3"><input type="text" name="name" class="form-control" placeholder="Full name" required></div>
           <div class="mb-3"><input type="text" name="cnic" class="form-control" placeholder="CNIC (13 digits)" maxlength="13" pattern="\d{13}" required></div>
-          <div class="mb-3"><input type="text" name="password" class="form-control" placeholder="Temporary password" minlength="6" required></div>
+          <div class="mb-3"><input type="text" name="password" class="form-control" placeholder="Temp password (12+ chars, Aa, 1, @)" minlength="12" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^A-Za-z0-9]).{12,}" title="At least 12 characters with an uppercase letter, a lowercase letter, a number and a symbol" required></div>
           <button type="submit" class="btn btn-gradient w-100">Create Account</button>
         </form>
         <p class="text-muted-2 small mt-3 mb-0">An account number is generated automatically. The user must complete their profile on first login.</p>

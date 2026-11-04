@@ -133,3 +133,8 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 LOGIN_URL = '/'
 LOGIN_REDIRECT_URL = '/'
+
+AUTH_PASSWORD_VALIDATORS = [
+    {'NAME': 'accounts.validators.StrongPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+]
